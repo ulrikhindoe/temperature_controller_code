@@ -4,7 +4,7 @@
  */
 
 $config = [
-	'serverType' => 'regulatorRemotelyControlled', // one of 'regulatorLocallyControlled' | 'regulatorRemotelyControlled' | 'externalController'
+	'serverType' => 'regulatorLocallyControlled', // one of 'regulatorLocallyControlled' | 'regulatorRemotelyControlled' | 'externalController'
 
 	'database' => [
 		'host'         => 'localhost',
