@@ -64,6 +64,24 @@ function regulateTemperature($temperature, $mysqli) {
 	return $newHeatOn;
 }
 
+function getSecondsSinceLatestChangeInHeatOnValueFromDb($mysqli) {
+	$seconds = 99999;
+	$currentHeatOn = getCurrentHeatOnFromDb($mysqli);
+	$sql = "
+		SELECT
+			UNIX_TIMESTAMP(NOW()) -  UNIX_TIMESTAMP(measured_at)
+		FROM time_series
+		WHERE heat_on <> $currentHeatOn
+		ORDER BY measured_at
+		DESC LIMIT 0, 1
+	";
+	$res = $mysqli->query($sql);
+	$row = $res->fetch_row();
+	if ($row) {
+		$seconds = $row[0];
+	}
+	return $seconds;
+}
 function getCurrentHeatOnFromDb($mysqli) {
 	$heatOn = false;
 	$sql = 'SELECT heat_on FROM time_series ORDER BY measured_at DESC LIMIT 0, 1';
