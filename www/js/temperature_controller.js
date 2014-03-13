@@ -9,12 +9,6 @@ $(function () {
 	} else {
 		$('form.parameters button').on('click', function () {
 			event.preventDefault();
-			if ($('form.parameters input[name=heat_on_if_temp_lower_than]').val()
-				>= $('form.parameters input[name=heat_off_if_temp_higher_than]').val()) {
-				alert('"Heat off if over" must be higher than "Heat on if lower"');
-				return;
-			}
-
 			messageOn('Saving parameters...', 'ongoing');
 			$.ajax({
 				url: 'parameters.php',

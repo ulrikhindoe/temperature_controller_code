@@ -32,10 +32,6 @@ require_once 'common_www.php';
 			<legend>Parameters</legend>
 			<ol>
 				<li>
-					<label>Heat off if over</label>
-					<input name="heat_off_if_temp_higher_than" type="number" placeholder="temperature in deg. Celcius" required autofocus>
-				</li>
-				<li>
 					<label>Heat on if lower</label>
 					<input name="heat_on_if_temp_lower_than" type="number" placeholder="temperature in deg. Celcius" required>
 				</li>

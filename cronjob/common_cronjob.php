@@ -40,22 +40,15 @@ function measureTemperature() {
 	if (preg_match('/ t=(\d{5})/', $wqSlave, $matches)) {
 		$temperature = $matches[1] / 1000;
 	}
-	print "temperature: $temperature\n";
 	return $temperature;
 }
 
 function regulateTemperature($temperature, $mysqli) {
 	$currentHeatOn = getCurrentHeatOnFromDb($mysqli);
 	$parameters = getParametersFromDb($mysqli);
-	$newHeatOn = 0;
-	if ($temperature > $parameters['heat_off_if_temp_higher_than']) {
-		$newHeatOn = 0;
-	} elseif ($temperature < $parameters['heat_on_if_temp_lower_than']) {
-		$newHeatOn = 1;
-	}
+	$newHeatOn = $temperature < $parameters['heat_on_if_temp_lower_than'] ? 1 : 0;
 	if ($newHeatOn != $currentHeatOn) {
 		$secondsSinceLatestChangeInHeatOnValueFromDb = getSecondsSinceLatestChangeInHeatOnValueFromDb($mysqli);
-		print "secondsSinceLatestChangeInHeatOnValueFromDb: $secondsSinceLatestChangeInHeatOnValueFromDb\n";
 		if ($secondsSinceLatestChangeInHeatOnValueFromDb < $parameters['min_seconds_between_heat_on_off']) {
 			$newHeatOn = $currentHeatOn;
 		}
@@ -95,7 +88,6 @@ function getCurrentHeatOnFromDb($mysqli) {
 
 function setHeatOn($value) {
 	// diode på board lyser ved "on"
-	print "heatOn to relay: $value\n";
 	$fp = fopen('/sys/class/gpio/gpio17/value', 'w');
 	fwrite($fp, $value ? '0' : '1');
 	fclose($fp);
@@ -115,5 +107,4 @@ function postTimeseriesData($measuredAt, $temperature, $heatOn, $config) {
 		CURLOPT_RETURNTRANSFER => true,
 	]);
 	$response = curl_exec($ch);
-	print "response: $response\n";
 }

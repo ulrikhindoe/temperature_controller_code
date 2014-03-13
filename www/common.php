@@ -25,15 +25,12 @@ function writeTimeseriesDataToDb($measuredAt, $temperature, $heatOn, $mysqli) {
 }
 
 function validateParameters($parameters) {
-	if (count($parameters) != 3) {
-		throw new Exception("Only expects 3 parameters from remote site. Got " . count($parameters));
+	if (count($parameters) != 2) {
+		throw new Exception("Only expects 2 parameters from remote site. Got " . count($parameters));
 	}
 
 	if (!preg_match('/^-?\d+(\.\d+)?$/', $parameters['heat_on_if_temp_lower_than'])) {
 		throw new Exception('parameter heat_on_if_temp_lower_than');
-	}
-	if (!preg_match('/^-?\d+(\.\d+)?$/', $parameters['heat_off_if_temp_higher_than'])) {
-		throw new Exception('parameter heat_off_if_temp_higher_than');
 	}
 	if (!preg_match('/^\d+$/', $parameters['min_seconds_between_heat_on_off'])) {
 		throw new Exception('parameter min_seconds_between_heat_on_off');
