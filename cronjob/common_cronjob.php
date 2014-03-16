@@ -37,7 +37,7 @@ function measureTemperature() {
 
 	$wqSlave     = file_get_contents("$devicesDir/{$deviceId}/w1_slave");
 	$temperature = false;
-	if (preg_match('/ t=(\d{5})/', $wqSlave, $matches)) {
+	if (preg_match('/ t=(\d+)/', $wqSlave, $matches)) {
 		$temperature = $matches[1] / 1000;
 	}
 	return $temperature;
