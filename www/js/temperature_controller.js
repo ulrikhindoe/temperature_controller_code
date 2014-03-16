@@ -107,13 +107,22 @@ function updateGraph() {
 			if (window.devicePixelRatio > 1) {
 				height *= 2;
 			}
-			graph = new Rickshaw.Graph({
+
+    
+            graph = new Rickshaw.Graph({
 				element: document.querySelector("#chart"),
 				width: $(document.body).width() - 40,
 				height: height,
 				renderer: 'line',
 				series: data
 			});
+
+            $('#legend').empty();
+            var legend = new Rickshaw.Graph.Legend({
+                graph: graph,
+                element: document.getElementById('legend')
+            });
+
 
 			var timeUnitSeconds;
 			switch (true) {

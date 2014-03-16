@@ -89,7 +89,11 @@ form.parameters input[type=number] {
     form.parameters, #message {
         width: 90%;
     }
+    .rickshaw_legend .label {
+        font-size: 22px;
+    }
 }
+
 
 form.parameters fieldset {
     border: none;
@@ -203,3 +207,21 @@ form.parameters input[type=radio] {
     font-size: 0.7em;
 }
 
+.rickshaw_legend {
+    background: none;
+}
+
+.rickshaw_legend ul {
+    list-style-type: none;
+    margin:0;
+    padding:0;
+    background: none;
+}
+
+.rickshaw_legend .label {
+    color: black;
+}
+
+.rickshaw_legend li.line {
+    display:inline;
+}

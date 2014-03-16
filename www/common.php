@@ -15,8 +15,8 @@ function initDb($config) {
 	return $mysqli;
 }
 
-function writeTimeseriesDataToDb($measuredAt, $temperature, $heatOn, $mysqli) {
-	$sql = "INSERT INTO time_series (measured_at, temperature, heat_on) VALUES ('$measuredAt', $temperature, $heatOn)";
+function writeTimeseriesDataToDb($measuredAt, $temperature, $minimumTemperature, $outsideTemperature, $heatOn, $mysqli) {
+	$sql = "INSERT INTO time_series (measured_at, temperature, minimum_temperature, outside_temperature, heat_on) VALUES ('$measuredAt', $temperature, $minimumTemperature, $outsideTemperature, $heatOn)";
 	$mysqli->query($sql) or die($mysqli->error);
 
 	// Keep only measurements for the latest 30 days
@@ -61,11 +61,13 @@ function getXyData($from, $column, $mysqli) {
 	$res = $mysqli->query($sql) or die($mysqli->error);
 	$data = [];
 	while ($row = $res->fetch_row()) {
-		$y = (float)$row[1];
-		if ($column == 'heat_on') {
-			$y *= 10;
-		}
-		$data[] = ['x'=>strtotime($row[0]), 'y'=>$y];
+        if (!is_null($row[1])) {
+		    $y = (float)$row[1];
+		    if ($column == 'heat_on') {
+			    $y *= 10;
+		    }
+		    $data[] = ['x'=>strtotime($row[0]), 'y'=>$y];
+        }
 	}
 	return $data;
 }

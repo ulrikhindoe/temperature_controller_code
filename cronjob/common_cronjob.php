@@ -110,3 +110,26 @@ function postTimeseriesData($measuredAt, $temperature, $heatOn, $config) {
 	]);
 	$response = curl_exec($ch);
 }
+
+
+function loadOutsideTemperatureFromDmi() {
+    $ch = curl_init();
+    curl_setopt_array(
+                            $ch,
+                            [
+                                CURLOPT_URL => 'http://www.dmi.dk/Obs4DmiDk/getData?obstype=min',
+                                CURLOPT_TIMEOUT => 2,
+                                CURLOPT_RETURNTRANSFER => true,
+                            ]
+    );
+    $response = curl_exec($ch);
+    $data = json_decode($response);
+    $temperature = -100;
+    foreach ($data as $location) {
+        if ($location->id == 6188) { // SJAELSMARK
+            $temperature = (float)$location-> temp_dry;
+            break;
+        }
+    }
+    return $temperature;
+}

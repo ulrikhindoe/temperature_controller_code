@@ -25,6 +25,11 @@ require_once 'common_www.php';
 	<img src="gfx/loader.gif"/>
 </div>
 
+<div id="legend">
+</div>
+
+
+
 <div id="message">Parameters were saved</div>
 <div id="parameters">
 	<form class="parameters">

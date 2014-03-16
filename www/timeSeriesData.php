@@ -7,13 +7,15 @@ $mysqli = initDb($config);
 try {
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-		$measuredAt  = $_POST['measuredAt'];
-		$temperature = $_POST['temperature'];
-		$heatOn      = $_POST['heatOn'];
+		$measuredAt         = $_POST['measuredAt'];
+		$temperature        = $_POST['temperature'];
+		$minimumTemperature = $_POST['minimumTemperature'];
+		$outsideTemperature = $_POST['outsideTemperature'];
+		$heatOn             = $_POST['heatOn'];
 
-		validateTimeSeriesData($measuredAt, $temperature, $heatOn);
+		validateTimeSeriesData($measuredAt, $temperature, $minimumTemperature, $outsideTemperature, $heatOn);
 
-		writeTimeseriesDataToDb($measuredAt, $temperature, $heatOn, $mysqli);
+		writeTimeseriesDataToDb($measuredAt, $temperature, $minimumTemperature, $outsideTemperature, $heatOn, $mysqli);
 		print "OK";
 	} else {
 		$from = $_GET['from'];
@@ -25,6 +27,16 @@ try {
 				'name' => 'temperature',
 				'data' => getXyData($from, 'temperature', $mysqli),
 				'color' => 'blue',
+			],
+			[
+				'name' => 'minimum_temperature',
+				'data' => getXyData($from, 'minimum_temperature', $mysqli),
+				'color' => 'green',
+			],
+                        [
+				'name' => 'outside_temperature',
+				'data' => getXyData($from, 'outside_temperature', $mysqli),
+				'color' => 'purple',
 			],
 			[
 				'name' => 'heat_on',
